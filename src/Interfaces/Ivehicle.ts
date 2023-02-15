@@ -6,3 +6,5 @@ export default interface IVehicle {
   status?: boolean | undefined,
   buyValue: number,
 }
+
+// force evaluation
