@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import Iexception from '../Interfaces/IException';
 import CarService from '../Services/CarService';
 
 export default class CarController {
@@ -25,6 +26,32 @@ export default class CarController {
       return this.res.status(201).json(newCar);
     } catch (error) {
       this.next(error);
+    }
+  }
+
+  public async listAll() {
+    try {
+      const cars = await this.service.listAll();
+      return this.res.status(200).json(cars);
+    } catch (error) {
+      this.next(error);
+    }
+  }
+
+  public async listById() {
+    const { id } = this.req.params;
+    try {
+      const car = await this.service.listById(id);
+      return this.res.status(200).json(car);
+    } catch (error) {
+      switch ((error as Iexception).status) {
+        case 404:
+          return this.res.status(404).json({ message: (error as Iexception).message });
+        case 422:
+          return this.res.status(422).json({ message: (error as Iexception).message });
+        default:
+          this.next(error);
+      }
     }
   }
 }

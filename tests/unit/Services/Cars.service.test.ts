@@ -52,7 +52,58 @@ describe('testes do serviço cars', function () {
       const service = new CarService();
       await service.create(input);
     } catch (error) {
-      expect((error as Error).message).to.be.equal('missing required properties');
+      expect((error as Error).message).to.be.equal('Missing required properties');
+    }
+  });
+
+  it('lista os cars com sucesso', async function () {
+    const output: Car[] = [new Car({
+      id: '6348513f34c397abcad040b2',
+      model: 'Marea',
+      year: 2002,
+      color: 'Black',
+      status: true,
+      buyValue: 15.990,
+      doorsQty: 4,
+      seatsQty: 5,
+    })];
+
+    sinon.stub(Model, 'find').resolves(output);
+
+    const service = new CarService();
+    const cars = await service.listAll();
+    expect(cars).to.be.deep.equal(output);
+  });
+
+  it('lista um car por id com sucesso', async function () {
+    const output: Car = new Car({
+      id: '6348513f34c397abcad040b2',
+      model: 'Marea',
+      year: 2002,
+      color: 'Black',
+      status: true,
+      buyValue: 15.990,
+      doorsQty: 4,
+      seatsQty: 5,
+    });
+
+    sinon.stub(Model, 'findById').resolves(output);
+
+    const service = new CarService();
+    const cars = await service.listById('6348513f34c397abcad040b2');
+    expect(cars).to.be.deep.equal(output);
+  });
+
+  it('lança exessão ao tentar listar um car por id inexistente', async function () {
+    const output = null;
+
+    sinon.stub(Model, 'findOne').resolves(output);
+
+    try {
+      const service = new CarService();
+      await service.listById('6348513f34c397abcad040b2');
+    } catch (error) {
+      expect((error as Error).message).to.be.equal('Car not found');
     }
   });
 });

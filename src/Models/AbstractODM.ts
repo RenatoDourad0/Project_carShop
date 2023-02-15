@@ -6,6 +6,7 @@ import {
   UpdateQuery,
   model,
 } from 'mongoose';
+import UnauthorizedError from '../Exceptions/UnauthorizedError';
 
 abstract class AbstractODM<T> {
   protected model: Model<T>;
@@ -23,7 +24,7 @@ abstract class AbstractODM<T> {
   }
 
   public async update(_id: string, obj: Partial<T>): Promise<T | null> {
-    if (!isValidObjectId(_id)) throw Error('Invalid Mongo id');
+    if (!isValidObjectId(_id)) throw new UnauthorizedError('Invalid Mongo id');
 
     return this.model.findByIdAndUpdate(
       { _id },
