@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { Model } from 'mongoose';
 import Car from '../../../src/Domains/Car';
-import Icar from '../../../src/Interfaces/ICar';
+import ICar from '../../../src/Interfaces/ICar';
 import CarService from '../../../src/Services/CarService';
 
 describe('testes do serviço cars', function () {
@@ -10,7 +10,7 @@ describe('testes do serviço cars', function () {
     sinon.restore();
   });
   it('cria um novo car com sucesso', async function () {
-    const input: Icar = {
+    const input: ICar = {
       model: 'Marea',
       year: 2002,
       color: 'Black',
@@ -19,7 +19,7 @@ describe('testes do serviço cars', function () {
       doorsQty: 4,
       seatsQty: 5,
     };
-    const output: Car = {
+    const output: Car = new Car({
       id: '6348513f34c397abcad040b2',
       model: 'Marea',
       year: 2002,
@@ -28,7 +28,7 @@ describe('testes do serviço cars', function () {
       buyValue: 15.990,
       doorsQty: 4,
       seatsQty: 5,
-    };
+    });
 
     sinon.stub(Model, 'create').resolves(output);
 
@@ -46,7 +46,7 @@ describe('testes do serviço cars', function () {
       buyValue: 15.990,
       doorsQty: 4,
       seatsQty: 5,
-    };
+    } as any as ICar;
 
     try {
       const service = new CarService();
