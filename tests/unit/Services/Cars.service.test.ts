@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { Model } from 'mongoose';
+import { Model, Mongoose } from 'mongoose';
 import Car from '../../../src/Domains/Car';
 import ICar from '../../../src/Interfaces/ICar';
 import CarService from '../../../src/Services/CarService';
@@ -104,6 +104,18 @@ describe('testes do serviço cars', function () {
       await service.listById('6348513f34c397abcad040b2');
     } catch (error) {
       expect((error as Error).message).to.be.equal('Car not found');
+    }
+  });
+
+  it('lança exessão ao tentar listar um car por id inválido', async function () {
+    const mongoose = new Mongoose();
+    sinon.stub(mongoose, 'isValidObjectId').resolves(false);
+
+    try {
+      const service = new CarService();
+      await service.listById('6348513f34c397abcad04***');
+    } catch (error) {
+      expect((error as Error).message).to.be.equal('Invalid mongo id');
     }
   });
 });
