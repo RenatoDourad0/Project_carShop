@@ -67,6 +67,16 @@ describe('Testa se no serviço Cars', function () {
     });
 
     it('com sucesso', async function () {
+      const input = [{
+        id: '6348513f34c397abcad040b2',
+        model: 'Marea',
+        year: 2002,
+        color: 'Black',
+        status: true,
+        buyValue: 15.990,
+        doorsQty: 4,
+        seatsQty: 5,
+      }];
       const output: Car[] = [new Car({
         id: '6348513f34c397abcad040b2',
         model: 'Marea',
@@ -78,7 +88,7 @@ describe('Testa se no serviço Cars', function () {
         seatsQty: 5,
       })];
   
-      sinon.stub(Model, 'find').resolves(output);
+      sinon.stub(Model, 'find').resolves(input);
   
       const service = new CarService();
       const cars = await service.listAll();
@@ -86,6 +96,16 @@ describe('Testa se no serviço Cars', function () {
     });
   
     it('por id com sucesso', async function () {
+      const input: ICar = {
+        id: '6348513f34c397abcad040b2',
+        model: 'Marea',
+        year: 2002,
+        color: 'Black',
+        status: true,
+        buyValue: 15.990,
+        doorsQty: 4,
+        seatsQty: 5,
+      };
       const output: Car = new Car({
         id: '6348513f34c397abcad040b2',
         model: 'Marea',
@@ -97,7 +117,7 @@ describe('Testa se no serviço Cars', function () {
         seatsQty: 5,
       });
   
-      sinon.stub(Model, 'findById').resolves(output);
+      sinon.stub(Model, 'findById').resolves(input);
   
       const service = new CarService();
       const cars = await service.listById('6348513f34c397abcad040b2');
