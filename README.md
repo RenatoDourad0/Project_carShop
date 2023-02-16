@@ -47,11 +47,10 @@
 
 ### Built With
 
-* ![React.js](https://img.shields.io/badge/React-000000?style=for-the-badge&logo=react&logoColor=61DAFB)
 * ![TypeScript](https://img.shields.io/badge/typescript-000000?style=for-the-badge&logo=typescript&logoColor=purple)
-* ![Express](https://img.shields.io/badge/express-000000?style=for-the-badge&logo=reactrouter&logoColor=white)
-* ![Sequelize](https://img.shields.io/badge/sequelize-000000?style=for-the-badge&logo=rtl&logoColor=red)
-* ![Mysql](https://img.shields.io/badge/mysql-000000?style=for-the-badge&logo=rtl&logoColor=red)
+* ![Express](https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white)
+* ![Mongoose](https://img.shields.io/badge/mongoose-000000?style=for-the-badge&logo=mongoose&logoColor=red)
+* ![MongoDb](https://img.shields.io/badge/mongodb-000000?style=for-the-badge&logo=mongodb&logoColor=red)
 * ![Docker](https://img.shields.io/badge/docker-000000?style=for-the-badge&logo=jest&logoColor=white)
 * ![Jest](https://img.shields.io/badge/jest-000000?style=for-the-badge&logo=css3&logoColor=blue)
 
@@ -90,15 +89,23 @@ To get a local copy up and running check below and follow these simple steps if 
 1. Fork the repo
 2. Clone the repo
    ```sh
-   git clone git@github.com:< USERNAME >/Project_TFC
+   git clone git@github.com:< USERNAME >/Project_carShop
    ```
 4. Start docker development environment
   - In the root folder:
    ```sh
-   npm run compose:up:dev
+   docker-compose up -d
    ```
-5. Back-end will be running on port 3001, DB on port 3006 and front on 3000
-
+5. Back-end will be running on port 3001 and DB on port 27017
+6. Access backend terminal and start development server
+```sh
+# to get container id
+docker ps
+# accessing container terminal
+docker exec -it <container id> bash
+# start development server
+npm run dev
+```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -108,7 +115,7 @@ To get a local copy up and running check below and follow these simple steps if 
 
 Renato Dourado - [Linkedin](https://linkedin.com/in/renato-dourado-b1b301112) - renatocvdourado@hotmail.com
 
-Project Link: [https://github.com/RenatoDourad0/Project_Irecipe](https://github.com/RenatoDourad0/Project_TFC)
+Project Link: [https://github.com/RenatoDourad0/Project_carShop](https://github.com/RenatoDourad0/Project_carShop)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
