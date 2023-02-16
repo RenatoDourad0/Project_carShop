@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import Iexception from '../Interfaces/IException';
 import CarService from '../Services/CarService';
 
 export default class CarController {
@@ -41,17 +40,10 @@ export default class CarController {
   public async listById() {
     const { id } = this.req.params;
     try {
-      const car = await this.service.listById(id);
+      const car = await this.service.listById(String(id));
       return this.res.status(200).json(car);
     } catch (error) {
-      switch ((error as Iexception).status) {
-        case 404:
-          return this.res.status(404).json({ message: (error as Iexception).message });
-        case 422:
-          return this.res.status(422).json({ message: (error as Iexception).message });
-        default:
-          this.next(error);
-      }
+      this.next(error);
     }
   }
 
@@ -66,14 +58,17 @@ export default class CarController {
         .updateById(id, { model, year, color, status, buyValue, doorsQty, seatsQty });
       return this.res.status(200).json(car);
     } catch (error) {
-      switch ((error as Iexception).status) {
-        case 404:
-          return this.res.status(404).json({ message: (error as Iexception).message });
-        case 422:
-          return this.res.status(422).json({ message: (error as Iexception).message });
-        default:
-          this.next(error);
-      }
+      this.next(error);
+    }
+  }
+
+  public async deleteById() {
+    const { id } = this.req.params;
+    try {
+      await this.service.deleteById(id);
+      this.res.status(200).end();
+    } catch (error) {
+      this.next(error);
     }
   }
 }

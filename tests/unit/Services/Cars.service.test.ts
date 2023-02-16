@@ -240,7 +240,7 @@ describe('Testa se no serviço Cars', function () {
         const service = new CarService();
         await service.deleteById(id);
       } catch (error) {
-        expect(error).to.be.equal(undefined);
+        expect(error).to.be.equal(false);
       }
     });
   });

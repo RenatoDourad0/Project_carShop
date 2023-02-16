@@ -1,10 +1,11 @@
-import mongoose, {
+import {
   Model,
   models,
   Schema,
   UpdateQuery,
   model,
   isValidObjectId,
+  startSession,
 } from 'mongoose';
 import UnauthorizedError from '../Exceptions/UnauthorizedError';
 
@@ -22,7 +23,8 @@ abstract class AbstractODM<T> {
   public validateId(id: string) {
     try {
       const isValid = isValidObjectId(id);
-      if (!isValid) throw new UnauthorizedError('Invalid mongo id');
+      if (!isValid) throw new Error();
+      return;
     } catch (error) {
       throw new UnauthorizedError('Invalid mongo id');
     }
@@ -41,10 +43,10 @@ abstract class AbstractODM<T> {
   }
 
   public async delete(id: string) {
-    const session = await mongoose.startSession();
+    const session = await startSession();
     session.startTransaction();
     try {
-      const deletedUser = await this.model.deleteOne({ id }).session(session);
+      const deletedUser = await this.model.remove({ id }).session(session);
     
       if (deletedUser.deletedCount !== 1) {
         await session.abortTransaction();

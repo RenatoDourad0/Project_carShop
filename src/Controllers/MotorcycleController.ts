@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import Iexception from '../Interfaces/IException';
 import MotorcycleService from '../Services/MotorcycleService';
 
 export default class MotorcycleController {
@@ -44,14 +43,7 @@ export default class MotorcycleController {
       const moto = await this.service.listById(id);
       return this.res.status(200).json(moto);
     } catch (error) {
-      switch ((error as Iexception).status) {
-        case 404:
-          return this.res.status(404).json({ message: (error as Iexception).message });
-        case 422:
-          return this.res.status(422).json({ message: (error as Iexception).message });
-        default:
-          this.next(error);
-      }
+      this.next(error);
     }
   }
 
@@ -66,14 +58,17 @@ export default class MotorcycleController {
         .updateById(id, { model, year, color, status, buyValue, category, engineCapacity });
       return this.res.status(200).json(moto);
     } catch (error) {
-      switch ((error as Iexception).status) {
-        case 404:
-          return this.res.status(404).json({ message: (error as Iexception).message });
-        case 422:
-          return this.res.status(422).json({ message: (error as Iexception).message });
-        default:
-          this.next(error);
-      }
+      this.next(error);
+    }
+  }
+
+  public async deleteById() {
+    const { id } = this.req.params;
+    try {
+      await this.service.deleteById(id);
+      this.res.status(200).end();
+    } catch (error) {
+      this.next(error);
     }
   }
 }

@@ -31,7 +31,7 @@ export default class CarService {
 
   public async listById(id: string) {
     const model = new CarODM();
-    model.validateId(id);
+    model.validateId(id);   
     const car = await model.validateExists(id);
     return this.createCarDomain(car);
   }
@@ -48,6 +48,6 @@ export default class CarService {
     const model = new CarODM();
     model.validateId(id);
     await model.validateExists(id);
-    return model.delete(id);
+    model.delete(id);
   }
 }
