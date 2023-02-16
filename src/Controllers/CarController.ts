@@ -54,4 +54,26 @@ export default class CarController {
       }
     }
   }
+
+  public async updateById() {
+    const { id } = this.req.params;
+    const {
+      model, year, color, status, buyValue, doorsQty, seatsQty,
+    } = this.req.body;
+
+    try {
+      const car = await this.service
+        .updateById(id, { model, year, color, status, buyValue, doorsQty, seatsQty });
+      return this.res.status(200).json(car);
+    } catch (error) {
+      switch ((error as Iexception).status) {
+        case 404:
+          return this.res.status(404).json({ message: (error as Iexception).message });
+        case 422:
+          return this.res.status(422).json({ message: (error as Iexception).message });
+        default:
+          this.next(error);
+      }
+    }
+  }
 }
