@@ -66,7 +66,7 @@ describe('Testa se no serviço Cars', function () {
       sinon.restore();
     });
 
-    it('com sucesso', async function () {
+    it('com  sucesso', async function () {
       const input = [{
         id: '6348513f34c397abcad040b2',
         model: 'Marea',
@@ -223,6 +223,24 @@ describe('Testa se no serviço Cars', function () {
       } catch (error) {
         expect((error as NotFoundError).message).to.equal('Car not found');
         expect((error as NotFoundError).status).to.equal(404);
+      }
+    });
+  });
+
+  describe('deleta Cars por id', function () {
+    it('com sucesso', async function () {
+      const id = '6348513f34c397abcad040b2';
+
+      const mongoose = new Mongoose();
+      sinon.stub(mongoose, 'isValidObjectId').resolves(true);
+      sinon.stub(Model, 'deleteOne')
+        .resolves({ deletedCount: 1 } as any);
+
+      try {
+        const service = new CarService();
+        await service.deleteById(id);
+      } catch (error) {
+        expect(error).to.be.equal(undefined);
       }
     });
   });

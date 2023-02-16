@@ -1,4 +1,4 @@
-import {
+import mongoose, {
   Model,
   models,
   Schema,
@@ -38,6 +38,24 @@ abstract class AbstractODM<T> {
       { ...obj } as UpdateQuery<T>,
       { new: true },
     );
+  }
+
+  public async delete(id: string) {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+      const deletedUser = await this.model.deleteOne({ id }).session(session);
+    
+      if (deletedUser.deletedCount !== 1) {
+        await session.abortTransaction();
+      } else {
+        await session.commitTransaction();
+      }
+    } catch (err) {
+      await session.abortTransaction();
+    } finally {
+      session.endSession();
+    }
   }
 
   public async findByValue(value: string): Promise<T | null> {
