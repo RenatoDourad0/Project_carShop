@@ -238,7 +238,8 @@ describe('Testa se no serviço Cars', function () {
 
       try {
         const service = new CarService();
-        await service.deleteById(id);
+        const deleted = await service.deleteById(id);
+        expect(deleted).to.be.equal(null);
       } catch (error) {
         expect(error).to.be.equal(false);
       }
