@@ -1,7 +1,7 @@
 import IMotorcycle from '../Interfaces/IMotorcycle';
-import AbstractVehicle from './AbstractVehicle';
+import Vehicle from './Vehicle';
 
-export default class Motorcycle extends AbstractVehicle {
+export default class Motorcycle extends Vehicle {
   private category: string;
   private engineCapacity: number;
 
